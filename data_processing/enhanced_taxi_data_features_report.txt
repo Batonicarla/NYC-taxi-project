@@ -1,0 +1,62 @@
+FEATURE ENGINEERING REPORT
+==================================================
+
+Input file: cleaned_taxi_data.csv
+Output file: enhanced_taxi_data.csv
+Processing date: 2025-10-16 00:01:45
+
+FEATURE STATISTICS:
+------------------------------
+Records Processed: 1,436,718
+Features Created: 22,987,488
+Distance Calculations: 1,436,718
+Time Features: 8,620,308
+Efficiency Metrics: 5,746,872
+
+DERIVED FEATURES CREATED:
+------------------------------
+1. Trip Distance (km) - Haversine distance calculation
+2. Trip Speed (km/h) - Average speed during trip
+3. Temporal Features - Hour, day, weekend, rush hour
+4. Efficiency Metrics - Distance per minute, idle time, efficiency score
+5. Zone Classification - Borough identification
+6. Trip Patterns - Speed, distance, and duration classifications
+
+FEATURE DESCRIPTIONS:
+------------------------------
+trip_distance_km: Great circle distance between pickup and dropoff
+trip_speed_kmh: Average speed calculated from distance and duration
+distance_per_minute: Distance covered per minute of travel
+estimated_idle_time: Estimated time spent not moving (traffic, stops)
+efficiency_score: Trip efficiency score (0-100, higher is better)
+trip_complexity: Ratio of actual to expected duration
+pickup_borough: Estimated NYC borough for pickup location
+trip_type: Intra-borough or inter-borough classification
+time_of_day: Morning, Afternoon, Evening, or Night
+is_rush_hour: Whether trip occurred during rush hours
+trip_patterns: Speed, distance, and duration pattern classification
+
+SAMPLE STATISTICS:
+------------------------------
+Sample enhanced record:
+  pickup_datetime: 2016-03-14 17:24:55
+  dropoff_datetime: 2016-03-14 17:32:30
+  pickup_longitude: -73.982154846191406
+  pickup_latitude: 40.767936706542969
+  dropoff_longitude: -73.964630126953125
+  dropoff_latitude: 40.765602111816406
+  trip_duration: 455
+  trip_distance_km: 1.499
+  trip_speed_kmh: 11.86
+  pickup_hour: 17
+  time_of_day: Evening
+  is_weekend: False
+  pickup_month: 3
+  is_rush_hour: True
+  distance_per_minute: 0.1977
+  efficiency_score: 29.6
+  trip_complexity: 1.69
+  pickup_borough: Manhattan
+  dropoff_borough: Manhattan
+  trip_type: Intra-borough
+  trip_patterns: Normal

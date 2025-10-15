@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Taxi Analytics Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <div class="logo-icon">🚕</div>
+                        <div>
+                            <h1 class="title">NYC Taxi Analytics</h1>
+                            <p class="subtitle">Urban Mobility Intelligence Dashboard</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot" id="apiStatus"></span>
+                        <span class="status-text" id="apiStatusText">Connecting...</span>
+                    </div>
+                    <button id="themeToggle" class="btn btn-secondary btn-ghost" aria-label="Toggle theme" title="Toggle theme">
+                        🌙
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-grid">
+            
+
+                <!-- Dashboard Content -->
+                <div class="dashboard-content">
+                    <!-- Statistics Overview -->
+                    <section class="stats-overview" id="statsOverview">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon trips">🚕</div>
+                                <h3 class="stat-card-title">Total Trips</h3>
+                            </div>
+                            <p class="stat-card-value" id="totalTrips">-</p>
+                            
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon distance">📏</div>
+                                <h3 class="stat-card-title">Avg Distance</h3>
+                            </div>
+                            <p class="stat-card-value" id="avgDistance">-</p>
+                            
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon speed">⚡</div>
+                                <h3 class="stat-card-title">Avg Speed</h3>
+                            </div>
+                            <p class="stat-card-value" id="avgSpeed">-</p>
+                            
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon duration">⏱️</div>
+                                <h3 class="stat-card-title">Avg Duration</h3>
+                            </div>
+                            <p class="stat-card-value" id="avgDuration">-</p>
+        
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon passengers">👥</div>
+                                <h3 class="stat-card-title">Avg Passengers</h3>
+                            </div>
+                            <p class="stat-card-value" id="avgPassengers">-</p>
+                        
+                        </div>
+                    </section>
+
+                    <!-- Charts Grid -->
+                    <section class="chart-grid">
+                        <!-- Hourly Activity Chart -->
+                        <div class="chart-section">
+                            <div class="chart-header">
+                                <div>
+                                    <h3 class="chart-title">Hourly Activity</h3>
+                                    <p class="chart-subtitle">Trips and speed patterns by hour</p>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="hourlyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Speed Distribution Chart -->
+                        <div class="chart-section">
+                            <div class="chart-header">
+                                <div>
+                                    <h3 class="chart-title">Speed Distribution</h3>
+                                    <p class="chart-subtitle">Trip count by speed ranges</p>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="speedChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Daily Trends Chart -->
+                        <div class="chart-section full-width">
+                            <div class="chart-header">
+                                <div>
+                                    <h3 class="chart-title">Daily Trends</h3>
+                                    <p class="chart-subtitle">Trip patterns over time</p>
+                                </div>
+                            </div>
+                            <div class="chart-container large">
+                                <canvas id="dailyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Efficiency Analysis Chart -->
+                        <div class="chart-section">
+                            <div class="chart-header">
+                                <div>
+                                    <h3 class="chart-title">Efficiency Analysis</h3>
+                                    <p class="chart-subtitle">Trip efficiency metrics</p>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="efficiencyChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Insights Section -->
+                    <section class="insights-section">
+                        <div class="section-header">
+                            <h2>Key Insights</h2>
+                            <p class="section-subtitle">analytics and patterns</p>
+                        </div>
+                        <div id="insightsGrid" class="insights-grid">
+                            <!-- Insights will be loaded here -->
+                        </div>
+                    </section>
+
+                    <!-- Filters Above Table -->
+                    <aside class="control-panel" id="filterPanel">
+                        <h2>
+                            Data Filters
+                            <button id="toggleFilters" class="btn btn-secondary btn-ghost" aria-expanded="true" style="margin-left:auto; font-size:0.85rem; padding:0.35rem 0.6rem;">
+                                Hide
+                            </button>
+                        </h2>
+                        
+                        <div class="filters-grid" id="filtersGrid">
+                            <!-- Date Range -->
+                            <div class="filter-group">
+                                <div class="filter-item">
+                                    <label for="startDate">Start Date</label>
+                                    <input type="date" id="startDate" name="startDate">
+                                </div>
+                                <div class="filter-item">
+                                    <label for="endDate">End Date</label>
+                                    <input type="date" id="endDate" name="endDate">
+                                </div>
+                            </div>
+
+                            <!-- Trip Attributes -->
+                            <div class="filter-group">
+                                <div class="filter-item">
+                                    <label for="timeOfDay">Time Period</label>
+                                    <select id="timeOfDay" name="timeOfDay">
+                                        <option value="">All Times</option>
+                                        <option value="Morning">Morning (5AM-12PM)</option>
+                                        <option value="Afternoon">Afternoon (12PM-5PM)</option>
+                                        <option value="Evening">Evening (5PM-9PM)</option>
+                                        <option value="Night">Night (9PM-5AM)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="filter-item">
+                                    <label for="isWeekend">Day Type</label>
+                                    <select id="isWeekend" name="isWeekend">
+                                        <option value="">All Days</option>
+                                        <option value="false">Weekdays</option>
+                                        <option value="true">Weekends</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="filter-item">
+                                    <label for="vendorId">Vendor</label>
+                                    <select id="vendorId" name="vendorId">
+                                        <option value="">All Vendors</option>
+                                        <option value="1">Creative Mobile Technologies</option>
+                                        <option value="2">VeriFone Inc.</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="filter-item">
+                                    <label for="passengerCount">Passenger Count</label>
+                                    <select id="passengerCount" name="passengerCount">
+                                        <option value="">Any Count</option>
+                                        <option value="1">1 Passenger</option>
+                                        <option value="2">2 Passengers</option>
+                                        <option value="3">3 Passengers</option>
+                                        <option value="4">4 Passengers</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Range Filters -->
+                            <div class="range-filters">
+                                <div class="range-item">
+                                    <label>Distance Range (km)</label>
+                                    <div class="range-inputs">
+                                        <input type="number" id="minDistance" placeholder="Min" min="0" step="0.1">
+                                        <span>to</span>
+                                        <input type="number" id="maxDistance" placeholder="Max" min="0" step="0.1">
+                                    </div>
+                                </div>
+                                
+                                <div class="range-item">
+                                    <label>Duration Range (minutes)</label>
+                                    <div class="range-inputs">
+                                        <input type="number" id="minDuration" placeholder="Min" min="1">
+                                        <span>to</span>
+                                        <input type="number" id="maxDuration" placeholder="Max" min="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="filter-actions">
+                                <button id="applyFilters" class="btn btn-primary">
+                                    🔍 Apply Filters
+                                </button>
+                                <button id="clearFilters" class="btn btn-secondary">
+                                    🗑️ Clear All
+                                </button>
+                                <button id="refreshData" class="btn btn-secondary">
+                                    🔄 Refresh Data
+                                </button>
+                                <button id="exportData" class="btn btn-secondary">
+                                    📥 Export CSV
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Trip Data Table -->
+                    <section class="data-section">
+                        <div class="data-header">
+                            <h3 class="data-title">Recent Trips</h3>
+                            <div class="flex items-center gap-2">
+                                <label for="pageSize" style="font-size: 0.875rem;">Show:</label>
+                                <select id="pageSize" style="padding: 0.25rem; font-size: 0.875rem;">
+                                    <option value="25">25</option>
+                                    <option value="50" selected>50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="data-table" id="tripsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Trip ID</th>
+                                        <th>Pickup Time</th>
+                                        <th>Duration</th>
+                                        <th>Distance</th>
+                                        <th>Speed</th>
+                                        <th>Passengers</th>
+                                        <th>Efficiency</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tripsTableBody">
+                                    <tr>
+                                        <td colspan="8" class="loading">
+                                            <div class="loading-spinner"></div>
+                                            Loading trip data...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination" id="paginationControls">
+                            <div class="pagination-info" id="paginationInfo">
+                                Showing 0-0 of 0 trips
+                            </div>
+                            <div class="pagination-controls">
+                                <button class="pagination-btn" id="prevPage" disabled>← Previous</button>
+                                <button class="pagination-btn" id="nextPage" disabled>Next →</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <span>Loading dashboard data...</span>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1001;">
+        <div style="background: white; border-radius: 0.75rem; padding: 2rem; max-width: 90%; max-height: 90%; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 id="modalTitle" style="margin: 0; font-size: 1.25rem; font-weight: 600;"></h3>
+                <button id="modalClose" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 0.25rem;">×</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="charts.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

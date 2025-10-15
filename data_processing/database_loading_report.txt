@@ -1,0 +1,21 @@
+DATABASE LOADING REPORT
+==================================================
+
+CSV file: enhanced_taxi_data.csv
+Database: nyc_taxi_db
+Loading date: 2025-10-16 00:34:41
+
+LOADING STATISTICS:
+------------------------------
+Records loaded: 1,122,718
+Records failed: 314,000
+Batch size: 1,000
+Total batches: 1,437
+
+DATABASE STATISTICS:
+------------------------------
+Total trips in database: 1,122,718
+Valid trips: 1,094,415
+Days covered: 182
+Statistical records: 4,358
+Loading success rate: 78.14%

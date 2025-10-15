@@ -1,0 +1,36 @@
+NYC TAXI DATA CLEANING REPORT
+==================================================
+
+Input file: ../train.csv
+Output file: cleaned_taxi_data.csv
+Cleaning date: 2025-10-15 23:58:36
+
+CLEANING STATISTICS:
+------------------------------
+Total Records: 1,458,644
+Valid Records: 1,436,718
+Invalid Records: 21,926
+Duplicates Removed: 7
+Missing Values Fixed: 0
+Outliers Detected: 36,432
+Coordinate Errors: 1,340
+Datetime Errors: 0
+Duration Errors: 20,579
+
+Data Quality: 98.50% valid records
+
+CLEANING ASSUMPTIONS:
+------------------------------
+• Missing passenger_count defaulted to 1
+• Missing store_and_fwd_flag defaulted to 'N'
+• Missing vendor_id defaulted to 1
+• Trip duration must be between 1 minute and 1 hour
+• Coordinates must be within NYC boundaries
+• Outliers detected using IQR method (2.0 multiplier)
+
+NYC COORDINATE BOUNDS USED:
+------------------------------
+min_lat: 40.4774
+max_lat: 40.9176
+min_lon: -74.2591
+max_lon: -73.7004
