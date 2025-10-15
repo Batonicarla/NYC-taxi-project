@@ -84,3 +84,10 @@ settings_backup/
 # Temporary files
 temp/
 tmp/
+
+# Data files
+*.csv
+train.csv
+test.csv
+data/
+*.parquet
