@@ -31,7 +31,7 @@ print_step() {
     echo -e "${BLUE}[STEP]${NC} $1"
 }
 
-# Check if running from correct directory
+# Check if running from the correct directory
 if [ ! -f "README.md" ]; then
     print_error "Please run this script from the project root directory (nyc-taxi-analysis/)"
     exit 1
@@ -104,7 +104,7 @@ fi
 # Database configuration
 DB_NAME="nyc_taxi_db"
 DB_USER="postgres"
-DB_PASSWORD="Tresor26"
+DB_PASSWORD="Carla"
 
 print_status "Setting up PostgreSQL database..."
 
@@ -257,15 +257,15 @@ cat > start_full_application.sh << 'EOF'
 #!/bin/bash
 echo "Starting Full NYC Taxi Analysis Application..."
 
-# Start backend in background
+# Start backend in the background
 echo "Starting backend server..."
 ./start_backend.sh &
 BACKEND_PID=$!
 
-# Wait a moment for backend to start
+# Wait a moment for the backend to start
 sleep 5
 
-# Start frontend in background
+# Start frontend in the background
 echo "Starting frontend server..."
 ./start_frontend.sh &
 FRONTEND_PID=$!
@@ -292,7 +292,7 @@ print_step "7. Generating project summary..."
 cat > PROJECT_STATUS.md << EOF
 # NYC Taxi Analysis - Project Status
 
-## Setup Completed Successfully ✅
+## Setup Completed Successfully 
 
 **Setup Date:** $(date)
 **Database:** $DB_NAME
