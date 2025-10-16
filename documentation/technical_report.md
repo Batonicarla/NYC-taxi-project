@@ -22,7 +22,7 @@ Original Fields:
 - pickup_datetime, dropoff_datetime: Trip timestamps
 - passenger_count: Number of passengers
 - pickup/dropoff_longitude, pickup/dropoff_latitude: GPS coordinates
-- store_and_fwd_flag: Whether trip was stored before forwarding
+- store_and_fwd_flag: If the trip was stored before being forwarded
 - trip_duration: Trip duration in seconds
 ```
 
@@ -62,7 +62,7 @@ Original Fields:
 
 ### Unexpected Observation
 
-**Discovery**: Analysis revealed that 23.7% of trips occur between 6 PM and 10 PM, but these evening trips have 15% lower average speeds compared to morning rush hour (7-9 AM). This counter-intuitive finding influenced our efficiency scoring algorithm to weight time-of-day differently than initially planned.
+**Discovery**: Analysis revealed that 23.7% of trips occur between 6 PM and 10 PM, but these evening trips have 15% lower average speeds compared to morning rush hour (7-9 AM). This counterintuitive finding influenced our efficiency scoring algorithm to weight time-of-day differently than initially planned.
 
 This observation led to the implementation of dynamic efficiency thresholds based on temporal patterns rather than static benchmarks.
 
@@ -118,7 +118,7 @@ This observation led to the implementation of dynamic efficiency thresholds base
 **Normalized Design Principles**:
 1. **Separation of Concerns**: Vendors table normalized to reduce redundancy
 2. **Indexing Strategy**: Composite indexes for common query patterns
-3. **Data Integrity**: Constraints ensure data quality at database level
+3. **Data Integrity**: Constraints ensure data quality at the database level
 4. **Performance Optimization**: Pre-computed statistics table for dashboard queries
 
 **Key Design Decisions**:
@@ -253,7 +253,7 @@ def calculate_distance(self, lat1: float, lon1: float, lat2: float, lon2: float)
 
 **Purpose**: Identify anomalous trips for data quality assessment
 
-**Approach**: Manual implementation of Interquartile Range method
+**Approach**: Manual implementation of the Interquartile Range method
 **Pseudo-code**:
 ```
 1. Sort values using custom QuickSort
@@ -316,7 +316,7 @@ for min_dist, max_dist in distance_ranges:
 **Visualization**: Box plot showing efficiency distribution across distance ranges
 
 **Urban Mobility Interpretation**:
-The "sweet spot" of 2-5km represents optimal balance between startup costs (traffic lights, acceleration) and highway efficiency. Very short trips suffer from cold-start inefficiency, while long trips encounter diverse traffic conditions reducing overall performance.
+The "sweet spot" of 2-5km represents an optimal balance between startup costs (traffic lights, acceleration) and highway efficiency. Very short trips suffer from cold-start inefficiency, while long trips encounter diverse traffic conditions, reducing overall performance.
 
 ### Insight 3: Geographic Efficiency Hotspots
 
@@ -324,7 +324,7 @@ The "sweet spot" of 2-5km represents optimal balance between startup costs (traf
 
 **Derivation Method**:
 ```python
-# Borough classification using custom geographic algorithm
+# Borough classification using a custom geographic algorithm
 def classify_trip_efficiency_by_borough():
     borough_stats = {}
     
@@ -368,7 +368,7 @@ Manhattan's grid system and higher traffic density paradoxically enable better e
 
 3. **Database Connection Handling**: Initial connection pool exhaustion under load
    - **Solution**: Implemented proper connection lifecycle management
-   - **Lesson**: Resource management critical for production systems
+   - **Lesson**: Resource management is critical for production systems
 
 4. **Frontend Responsiveness**: Large datasets caused UI freezing
    - **Solution**: Implemented pagination, lazy loading, and loading indicators
@@ -404,7 +404,7 @@ Manhattan's grid system and higher traffic density paradoxically enable better e
 #### Product Features
 
 1. **Interactive Mapping**:
-   - Real-time trip visualization on NYC map
+   - Real-time trip visualization on the NYC map
    - Heat maps for demand patterns
    - Route optimization suggestions
 
@@ -420,7 +420,7 @@ Manhattan's grid system and higher traffic density paradoxically enable better e
 
 ### Production Deployment Considerations
 
-1. **Security**: Implement authentication, API rate limiting, input validation
+1. **Security**: Implement authentication, API rate limiting, and input validation
 2. **Monitoring**: Add application performance monitoring, error tracking
 3. **Backup Strategy**: Automated database backups, disaster recovery procedures
 4. **Load Testing**: Stress testing with realistic data volumes and concurrent users
