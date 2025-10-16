@@ -5,7 +5,7 @@
 This is a comprehensive full-stack application for analyzing NYC Taxi Trip data, built as part of an enterprise-level urban mobility analysis project. The application processes ~1.45M taxi trip records, stores them in a relational database, and provides an interactive dashboard for exploring urban mobility patterns.
 
 ## Video Walkthrough
-[Link to video demonstration will be added here]
+https://drive.google.com/file/d/1BOx2yejbI5xDIgAi265BfnpgjiubjMs0/view?usp=sharing
 
 ## System Architecture
 - **Frontend**: Interactive HTML/CSS/JavaScript dashboard
