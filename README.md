@@ -118,8 +118,7 @@ python3 -m http.server 8000
 ```
 
 ### Step 7: Access Application
-- Frontend Dashboard: http://localhost:8000
-- Backend API: http://localhost:5000/api
+LINK to Dashboard:http://127.0.0.1:5500/frontend/index.html
 
 ## 🔒 Security Features
 
